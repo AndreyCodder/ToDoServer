@@ -14,7 +14,6 @@ namespace ToDoServer.Controllers
         [Route("list/{param}")]
         public IEnumerable<ToDoServer.Models.Task> GetParamed(string param)
         {
-            //return new DemoTaskList().tasksDemo.Select(p => new Models.Task { Text = p.Text });
             switch (param)
             {
                 case "1":
@@ -33,15 +32,6 @@ namespace ToDoServer.Controllers
         public IEnumerable<ToDoServer.Models.Task> Get()
         {
             return new DemoTaskList().tasksDemo.Select(p => new Models.Task { Text = p.Text });
-            /*switch (param)
-            {
-                case "1":
-                    return new DemoTaskList().tasksDemo.Select( p => new Models.Task { Text = p.Text } ); 
-                    break;
-                default:
-                    return new DemoTaskList().tasksDemo;
-                    break;
-            }*/
         }
 
         // GET api/<TasksController>/5
@@ -63,7 +53,7 @@ namespace ToDoServer.Controllers
         {
         }
 
-        // DELETE api/<TasksController>/5
+        // DELETE api/<TasksController>/5  dsdawdsad asdwad sd 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
