@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Runtime.Intrinsics.X86;
 using ToDoServer.Models;
 
@@ -7,10 +6,11 @@ using ToDoServer.Models;
 
 namespace ToDoServer.Controllers
 {
-    [Route("tasks/[controller]")]
+    [Route("/tasks")]
     [ApiController]
     public class TasksController : ControllerBase
     {
+        private TaskContext db = new TaskContext();
         // GET: api/<TasksController>
         [HttpGet]
         [Route("list/{param}")]
@@ -35,31 +35,32 @@ namespace ToDoServer.Controllers
         public IEnumerable<ToDoServer.Models.Task> GetList()
         {
             //return new DemoTaskList().tasksDemo;
-            using TaskContext db = new TaskContext();
-            // создаем два объекта User
-            ToDoServer.Models.Task t1 = new ToDoServer.Models.Task { Id = Guid.NewGuid(), Text = "1" };
-            ToDoServer.Models.Task t2 = new ToDoServer.Models.Task { Id = Guid.NewGuid(), Text = "2" };
-            ToDoServer.Models.Task t3 = new ToDoServer.Models.Task { Id = Guid.NewGuid(), Text = "and" };
-            ToDoServer.Models.Task t4 = new ToDoServer.Models.Task { Id = Guid.NewGuid(), Text = "3" };
+            {
+                // создаем два объекта User
+                //ToDoServer.Models.Task t1 = new ToDoServer.Models.Task { Id = Guid.NewGuid(), Text = "1" };
+                //ToDoServer.Models.Task t2 = new ToDoServer.Models.Task { Id = Guid.NewGuid(), Text = "2" };
+                //ToDoServer.Models.Task t3 = new ToDoServer.Models.Task { Id = Guid.NewGuid(), Text = "and" };
+                //ToDoServer.Models.Task t4 = new ToDoServer.Models.Task { Id = Guid.NewGuid(), Text = "4" };
 
 
-            // добавляем их в бд
-            db.Tasks.Add(t1);
-            db.Tasks.Add(t2);
-            db.Tasks.Add(t3);
-            db.Tasks.Add(t4);
-            db.SaveChanges();
+                // добавляем их в бд
+                //db.Tasks.Add(t1);
+                //db.Tasks.Add(t2);
+                //db.Tasks.Add(t3);
+                //db.Tasks.Add(t4);
+                //db.SaveChanges();
 
 
-            // получаем объекты из бд и выводим на консоль
-            var tasks = db.Tasks.ToList();
-            //Console.WriteLine("Список объектов:");
-            return tasks;
-            //foreach (ToDoServer.Models.Task u in tasks)
-            //{
-            //    Console.WriteLine("{0}.{1} - {2}", u.Id, u.Id, u.Text);
-            //}
-        }
+                // получаем объекты из бд и выводим на консоль
+                var tasks = db.Tasks.ToList();
+                //Console.WriteLine("Список объектов:");
+                return tasks;
+            }
+        //foreach (ToDoServer.Models.Task u in tasks)
+        //{
+        //    Console.WriteLine("{0}.{1} - {2}", u.Id, u.Id, u.Text);
+        //}
+    }
 
         [HttpGet]
         public IEnumerable<ToDoServer.Models.Task> Get()
@@ -76,8 +77,10 @@ namespace ToDoServer.Controllers
 
         // POST api/<TasksController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public string Post(ToDoServer.Models.Task task)
         {
+                db.Tasks.Add(task);
+                return "1";
         }
 
         // PUT api/<TasksController>/5

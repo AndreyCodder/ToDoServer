@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
-namespace ToDoServer.Controllers
+namespace ToDoServer.ForDelete
 {
     [ApiController]
     [Route("weather/[controller]")]

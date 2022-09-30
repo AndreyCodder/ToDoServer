@@ -1,4 +1,4 @@
-namespace ToDoServer
+namespace ToDoServer.ForDelete
 {
     public class WeatherForecast
     {

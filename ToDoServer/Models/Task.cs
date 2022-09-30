@@ -1,4 +1,6 @@
-﻿namespace ToDoServer.Models
+﻿using System.Data.Entity;
+
+namespace ToDoServer.Models
 {
     public class Task
     {
