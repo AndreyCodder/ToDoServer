@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Counter from './components/Counter';
 import PostList from './components/PostList';
+import MyButton from './components/UI/Buttons/MyButton';
+import MyInput from './components/UI/input/MyInput';
 import './styles/App.css';
 
 function App() {
@@ -19,8 +21,42 @@ function App() {
         { id: 4, title: "JS12", body: { text: "text", style: "" } }
     ]);
 
+    const [title, setTitle] = useState('');
+    const inputBody = useRef();
+
+    const addNewPost = (e) => {
+        e.preventDefault();
+        //inputBody.current.value
+        const newPost = {
+            id: Date.now(),
+            title,
+            body: {
+                text: inputBody.current.value,
+                style: "red"
+            }
+        }
+        setPosts([...posts,newPost])
+    }
+
     return (
-        <PostList posts={posts}/>
+        <div>
+            <form>
+                <MyInput
+                    value={title}
+                    onChange={e => setTitle(e.target.value)} 
+                    type="text" 
+                    placeholder="Заголовок" 
+                />
+                <MyInput 
+                    type="text" 
+                    placeholder="Текст"
+                    ref={inputBody} 
+                />
+                <MyButton onClick={addNewPost}>Создать</MyButton>
+            </form>
+            <PostList posts={posts} title={'Список постов 1'} />
+        </div>
+        
     );
 }
 
