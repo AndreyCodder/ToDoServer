@@ -8,8 +8,8 @@ const PostList = (props) => {
             <h1 style={{textAlign: 'center'} }>
                 { props.title }
             </h1>
-            {props.posts.map((p) => 
-                <PostItem post={p} key={p.id}  />
+            {props.posts.map((p, index) => 
+                <PostItem remove={props.remove} number={index+1} post={p} key={p.id}  />
             )}
         </div>
     )
