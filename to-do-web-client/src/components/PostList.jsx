@@ -3,6 +3,13 @@ import PostItem from './PostItem';
 
 const PostList = (props) => {
     //<div>{p.id}</div>
+    if(!props.posts.length){
+        return (
+            <h1 style={{textAlign: 'center'} }>
+                Постов нет
+            </h1>
+        )
+    }
     return (
         <div className="App">
             <h1 style={{textAlign: 'center'} }>
