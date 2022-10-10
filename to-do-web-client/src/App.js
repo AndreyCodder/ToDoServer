@@ -1,12 +1,11 @@
+import axios from 'axios';
 import React, { useMemo, useRef, useState } from 'react';
-import Counter from './components/Counter';
+import { usePosts } from './components/hooks/usePost';
 import PostFilter from './components/PostFilter';
 import PostForm from './components/PostForm';
 import PostList from './components/PostList';
 import MyButton from './components/UI/Buttons/MyButton';
-import MyInput from './components/UI/input/MyInput';
 import MyModal from './components/UI/MyModal/MyModal';
-import MySelect from './components/UI/select/MySelect';
 import './styles/App.css';
 
 function App() {
@@ -22,36 +21,13 @@ function App() {
 
     const [filter, setFilter] = useState({sort: '' , filter: ''})
     const [modal, setModal] = useState(false)
-
-    const sortedPosts = useMemo( () => {
-        console.log("YEAH")
-        switch(filter.sort) {
-            case "title":
-                return ([...posts].sort(function(a, b){
-                    let x = a.title.toLowerCase();
-                    let y = b.title.toLowerCase();
-                    if (x < y) {return -1;}
-                    if (x > y) {return 1;}
-                    return 0;
-                }))
-            case "body":
-                return ([...posts].sort(function(a, b){
-                    let x = a.body.text.toLowerCase();
-                    let y = b.body.text.toLowerCase();
-                    if (x < y) {return -1;}
-                    if (x > y) {return 1;}
-                    return 0;
-                }))
-            default:
-                return posts;
-                
-        }
-    }, [filter.sort, posts])
-
-    const sortedAndSearchedPosts = useMemo( () => {
-        let lowerSearcher = filter.filter.toLocaleLowerCase();
-        return sortedPosts.filter(e => e.title.toLocaleLowerCase().includes(lowerSearcher) || e.body.text.toLocaleLowerCase().includes(lowerSearcher))
-    }, [sortedPosts, filter.filter])
+    
+    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.filter);
+    
+    async function getPosts() {
+        const responsePosts = await axios.get('https://jsonplaceholder.typicode.com/posts');
+        setPosts(responsePosts.data.map((p, index) =>  { return {...p, body: { text: p.body }} }    ))
+    }
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
@@ -63,7 +39,8 @@ function App() {
     }
 
     return (
-        <div>
+        <div style={{width: "50vw"}}>
+            <button onClick={() => getPosts()}>GET POSTS</button>
             <MyButton style={{margin: "15px 0"}} onClick={() => setModal(true)}>
                 Создать пост
             </MyButton>
