@@ -11,7 +11,6 @@ const PostFilter = ({filter, setFilter}) => {
                 type="text"
                 placeholder="Поиск"
             />
-            <hr style={{margin: '15px 0'}}/>
             <MySelect 
                 value={filter.sort}
                 default={"Сортировка по"} 
