@@ -1,44 +1,44 @@
 ﻿* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 #root {
-    display: flex;
-    justify-content: center;
-    width: 80wv;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 80wv;
 }
 
 .App {
-    width: 100%;
+  width: 100%;
 }
 
 .post {
-    display: flex;
-    padding: 15px;
-    border: 2px solid teal;
-    margin-top: 15px;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  padding: 15px;
+  border: 2px solid teal;
+  margin-top: 15px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .red {
-    color: mediumvioletred;
+  color: mediumvioletred;
 }
 
-
 .post-enter {
-    opacity: 0;
-  }
-  .post-enter-active {
-    opacity: 1;
-    transition: opacity 500ms ease-in;
-  }
-  .post-exit {
-    opacity: 1;
-  }
-  .post-exit-active {
-    opacity: 0;
-    transition: opacity 500ms ease-in;
-  }
+  opacity: 0;
+}
+.post-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.post-exit {
+  opacity: 1;
+}
+.post-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
