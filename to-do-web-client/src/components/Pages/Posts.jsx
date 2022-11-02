@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { usePosts } from '../hooks/usePost';
 import { useFetching } from '../hooks/useFetching';
 import PostService from '../API/PostService';
@@ -11,6 +11,7 @@ import PostList from '../PostList';
 import Pagination from '../UI/Pagination/Pagination';
 import '../../styles/App.css';
 import { PageCount } from '../../utils/pageCount';
+import { useObserver } from '../hooks/useObserver';
 
 function Posts() {
     const [posts, setPosts] = useState([]);
@@ -20,12 +21,14 @@ function Posts() {
     const [totalPages, setTotalPages] = useState(0);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
+    const lastElement = useRef();
+    const observer = useRef();
 
     
     const [fetchingPosts, isLoading, error] = useFetching( async () => {
         const postss = await PostService.GetAll(limit, page);
         const parsedPosts = postss.data.map((p, index) =>  { return {...p, body: { text: p.body }} })
-        setPosts(parsedPosts);
+        setPosts([...posts, ...parsedPosts]);
         const totalCount = postss.headers['x-total-count'];
         setTotalPages(PageCount(totalCount, limit))
     } )
@@ -36,7 +39,9 @@ function Posts() {
         fetchingPosts();
     }, [page])
 
-    
+    useObserver(lastElement, isLoading, page < totalPages, () => {
+        setPage(page + 1)
+    })
     
 
     const createPost = (newPost) => {
@@ -60,9 +65,10 @@ function Posts() {
             {error &&
                 <h1>Ошибка: {error}</h1>
             }
-            {isLoading
-                ? <Loader />
-                : <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Список постов 1'} />
+            <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Список постов 1'} />
+            <div ref={lastElement}/>
+            {isLoading &&
+                <Loader />
             }
             <Pagination page={page} setPage={setPage} totalPages={totalPages}/>
         </div>

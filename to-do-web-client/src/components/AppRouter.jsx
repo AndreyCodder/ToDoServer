@@ -1,16 +1,40 @@
 import React from 'react';
+import { useContext } from 'react';
 import { Route, Routes } from 'react-router';
-import About from './Pages/About';
-import My404page from './Pages/My404page';
-import Posts from './Pages/Posts';
+import { privateRoutes, publicRoutes } from '../router/routes';
+import { AuthContext } from './Context/context';
+
 
 const AppRouter = () => {
+  const {isAuth} = useContext(AuthContext)
     return (
-        <Routes>
-        <Route path="/about" element={<About />} />
-        <Route path="/posts" element={<Posts />} />
-        <Route path="*" element={<My404page />} />
-      </Routes>
+          isAuth
+            ?
+            <Routes>
+              {
+                privateRoutes.map(r => {return (
+                    <Route
+                      path={r.path}
+                      element={r.element}
+                      key={r}
+                    />
+                  ) }
+                ) 
+              }
+            </Routes>
+            :
+            <Routes>
+              {
+                publicRoutes.map(r => {return (
+                    <Route
+                      path={r.path}
+                      element={r.element}
+                      key={r}
+                    />
+                  ) }
+                ) 
+              }
+            </Routes>
     );
 };
 
